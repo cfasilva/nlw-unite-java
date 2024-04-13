@@ -1,5 +1,7 @@
 package rocketseat.com.passin.domain.checkin;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,15 +16,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import rocketseat.com.passin.domain.attendee.Attendee;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "check-ins")
+@Table(name = "check_ins")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Checkin {
+public class CheckIn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
