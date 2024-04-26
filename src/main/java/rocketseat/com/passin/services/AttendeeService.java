@@ -20,12 +20,12 @@ public class AttendeeService {
     private final AttendeeRepository attendeeRepository;
     private final CheckInRepository checkInRepository;
 
-    public List<Attendee> getAllAttendessFromEvent(String eventId) {
-        return  this.attendeeRepository.findByEventId(eventId);
+    public List<Attendee> getAllAttendeesFromEvent(String eventId) {
+        return this.attendeeRepository.findByEventId(eventId);
     }
 
     public AttendeesListResponseDTO getEventsAttendee(String eventId) {
-        List<Attendee> attendeeList = this.getAllAttendessFromEvent(eventId);
+        List<Attendee> attendeeList = this.getAllAttendeesFromEvent(eventId);
 
         List<AttendeeDetails> attendeeDetailsList = attendeeList.stream().map(attendee -> {
             Optional<CheckIn> checkIn = this.checkInRepository.findByAttendeeId(attendee.getId());
