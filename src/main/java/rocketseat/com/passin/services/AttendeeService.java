@@ -42,9 +42,8 @@ public class AttendeeService {
         return new AttendeesListResponseDTO(attendeeDetailsList);
     }
 
-    public Attendee registerAttendee(Attendee newAttendee) {
+    public void registerAttendee(Attendee newAttendee) {
         this.attendeeRepository.save(newAttendee);
-        return newAttendee;
     }
 
     public void validateAttendeeSubscription(String eventId, String email) {
