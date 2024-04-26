@@ -15,7 +15,6 @@ import rocketseat.com.passin.repositories.EventRepository;
 
 import java.text.Normalizer;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
