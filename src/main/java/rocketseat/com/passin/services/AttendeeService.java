@@ -2,9 +2,13 @@ package rocketseat.com.passin.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 import rocketseat.com.passin.domain.attendee.Attendee;
 import rocketseat.com.passin.domain.attendee.exceptions.AttendeeAlreadyRegisteredException;
+import rocketseat.com.passin.domain.attendee.exceptions.AttendeeNotFoundException;
 import rocketseat.com.passin.domain.checkin.CheckIn;
+import rocketseat.com.passin.dto.attendee.AttendeeBadgeDTO;
+import rocketseat.com.passin.dto.attendee.AttendeeBadgeResponseDTO;
 import rocketseat.com.passin.dto.attendee.AttendeeDetails;
 import rocketseat.com.passin.dto.attendee.AttendeesListResponseDTO;
 import rocketseat.com.passin.repositories.AttendeeRepository;
@@ -50,5 +54,28 @@ public class AttendeeService {
         Optional<Attendee> isAttendeeRegistered = this.attendeeRepository.findByEventIdAndEmail(eventId, email);
         if (isAttendeeRegistered.isPresent())
             throw new AttendeeAlreadyRegisteredException("Attendee already registered with this event.");
+    }
+
+    public AttendeeBadgeResponseDTO getAttendeeBadge(String attendeeId, UriComponentsBuilder uriComponentsBuilder) {
+        Attendee attendee = getAttendee(attendeeId);
+
+        AttendeeBadgeDTO attendeeBadgeDTO = new AttendeeBadgeDTO(
+                attendee.getName(),
+                attendee.getEmail(),
+                uriComponentsBuilder
+                        .path("attendees/{attendeeId}/badge")
+                        .buildAndExpand(attendeeId)
+                        .toUri().toString(),
+                attendee.getEvent().getId()
+        );
+
+        return new AttendeeBadgeResponseDTO(attendeeBadgeDTO);
+    }
+
+    private Attendee getAttendee(String attendeeId) {
+        return this.attendeeRepository
+                .findById(attendeeId)
+                .orElseThrow(() ->
+                        new AttendeeNotFoundException("Attendee not found with ID: " + attendeeId));
     }
 }
